@@ -7,6 +7,7 @@ from launch.substitutions import (
     PathSubstitution,
 )
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -49,7 +50,8 @@ def generate_launch_description() -> LaunchDescription:
                 output="screen",
                 parameters=[
                     {
-                        "robot_description": Command(
+                        "robot_description": ParameterValue(
+                        Command(
                             [
                                 FindExecutable(name="xacro"),
                                 " ",
@@ -71,7 +73,9 @@ def generate_launch_description() -> LaunchDescription:
                                     "init_jnt_pos",
                                 ),
                             ]
-                        )
+                        ),
+                        value_type=str,
+                    )
                     },
                     {"use_sim_time": True},
                 ],
@@ -83,12 +87,23 @@ def generate_launch_description() -> LaunchDescription:
                 )
                 / "launch"
                 / "gz_sim.launch.py",
-                launch_arguments={"gz_args": "-r empty.sdf"}.items(),
+                launch_arguments={
+                    "gz_args": [
+                        "-r ",
+                        PathSubstitution(FindPackageShare("lbr_bringup"))
+                        / "worlds"
+                        / "iiwa_empty_with_sensors.world.sdf",
+                    ]
+                }.items(),
             ),  # Gazebo has its own controller manager
             Node(
                 package="ros_gz_bridge",
                 executable="parameter_bridge",
-                arguments=["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
+                arguments=[
+                    "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
+                    '/env_camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
+                    '/env_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+                ],
                 output="screen",
             ),
             Node(
