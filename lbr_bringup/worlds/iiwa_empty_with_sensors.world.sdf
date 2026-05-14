@@ -39,5 +39,41 @@
     <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
     <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
     <plugin filename="gz-sim-odometry-system" name="gz::sim::systems::Odometry"/>
+    <model name="green_floor_marker">
+      <static>true</static>
+      <pose>0.3 0.3 0.0005 0 0 0</pose>
+      <link name="marker_link">
+        <visual name="marker_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.001</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 1 0 1</ambient>
+            <diffuse>0 1 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="blue_floor_marker">
+      <static>true</static>
+      <pose>0.3 -0.3 0.0005 0 0 0</pose>
+      <link name="marker_link">
+        <visual name="marker_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.001</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 1 1</ambient>
+            <diffuse>0 0 1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
   </world>
 </sdf>
