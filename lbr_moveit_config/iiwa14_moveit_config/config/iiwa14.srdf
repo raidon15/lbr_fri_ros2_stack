@@ -57,4 +57,13 @@
     <disable_collisions link1="lbr_link_5" link2="lbr_link_6" reason="Adjacent"/>
     <disable_collisions link1="lbr_link_5" link2="lbr_link_7" reason="Never"/>
     <disable_collisions link1="lbr_link_6" link2="lbr_link_7" reason="Adjacent"/>
+    <disable_collisions link1="hand_e_base_link" link2="lbr_link_7" reason="Adjacent" />
+    <disable_collisions link1="hand_e_base_link" link2="lbr_link_ee" reason="Adjacent" />
+    <disable_collisions link1="hand_e_base_link" link2="lbr_link_6" reason="Never" />
+
+    <disable_collisions link1="hand_e_base_link" link2="hande_left_finger" reason="Adjacent" />
+    <disable_collisions link1="hand_e_base_link" link2="hande_right_finger" reason="Adjacent" />
+    <disable_collisions link1="hande_left_finger" link2="hande_right_finger" reason="Default" />
+    <disable_collisions link1="hande_left_finger" link2="lbr_link_7" reason="Never" />
+    <disable_collisions link1="hande_right_finger" link2="lbr_link_7" reason="Never" />
 </robot>

@@ -7,6 +7,8 @@
     <xacro:include filename="$(find lbr_description)/urdf/iiwa14/iiwa14.urdf.xacro" />
     <xacro:include filename="$(find lbr_description)/gazebo/lbr_gazebo.xacro" />
     <xacro:include filename="$(find lbr_description)/ros2_control/lbr_system_interface.xacro" />
+    <xacro:include filename="$(find robotiq_description)/urdf/robotiq_hand_e_macro.urdf.xacro" />
+
 
     <!-- arguments -->
     <xacro:arg name="robot_name" default="lbr" />
@@ -25,12 +27,23 @@
     will tipple https://github.com/lbr-stack/lbr_fri_ros2_stack/issues/230 -->
     <link name="world" />
 
+
     <!--joint
         between <robot_name>_world_link and robot_name_link_0-->
     <joint name="$(arg robot_name)_world_joint" type="fixed">
         <parent link="world" />
         <child link="$(arg robot_name)_link_0" />
     </joint>
+
+
+    
+
+    <xacro:robotiq_hande prefix="" parent= "$(arg robot_name)_link_ee">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:robotiq_hande>
+
+    
+
 
     <!-- macros for gazebo / mock / hardware -->
     <xacro:lbr_gazebo robot_name="$(arg robot_name)" />

@@ -16,6 +16,9 @@
     forward_position_controller:
       type: position_controllers/JointGroupPositionController
 
+    robotiq_gripper_controller:
+        type: position_controllers/JointGroupPositionController
+
 # ROS 2 control controllers
 /**/joint_trajectory_controller:
   ros__parameters:
@@ -46,3 +49,10 @@
       - lbr_A6
       - lbr_A7
     interface_name: position
+
+/**/robotiq_gripper_controller:
+    ros__parameters:
+      joints:
+        - hande_right_finger_joint
+      interface_name: position
+      enforce_joint_limits: false

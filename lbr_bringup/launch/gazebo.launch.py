@@ -16,7 +16,7 @@ def generate_launch_description() -> LaunchDescription:
         [
             DeclareLaunchArgument(
                 name="model",
-                default_value="iiwa7",
+                default_value="iiwa14",
                 description="The LBR model in use.",
                 choices=["iiwa7", "iiwa14", "med7", "med14"],
             ),
@@ -131,6 +131,8 @@ def generate_launch_description() -> LaunchDescription:
                 output="screen",
                 namespace=LaunchConfiguration("robot_name"),
             ),  # spawns robot in Gazebo through robot_description topic of robot_state_publisher
+            
+            # This node spawns the core arm controllers
             Node(
                 package="controller_manager",
                 executable="spawner",
@@ -143,5 +145,19 @@ def generate_launch_description() -> LaunchDescription:
                 ],
                 namespace=LaunchConfiguration("robot_name"),
             ),
+
+            # Added: This node explicitly spawns your Robotiq gripper controller inside the 'lbr' namespace
+            Node(
+                package="controller_manager",
+                executable="spawner",
+                output="screen",
+                arguments=[
+                    "--controller-manager",
+                    "controller_manager",
+                    "robotiq_gripper_controller",
+                ],
+                namespace=LaunchConfiguration("robot_name"),
+            ),
+            
         ]
     )
