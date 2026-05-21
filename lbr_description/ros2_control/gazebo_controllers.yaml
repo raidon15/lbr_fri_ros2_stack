@@ -3,7 +3,7 @@
 /**/controller_manager:
   ros__parameters:
     update_rate: 100
-    enforce_command_limits: true # can be removed from Kilted onward
+    enforce_command_limits: false # can be removed from Kilted onward
 
     # ROS 2 control broadcasters
     joint_state_broadcaster:
@@ -54,5 +54,5 @@
     ros__parameters:
       joints:
         - hande_right_finger_joint
+        - hande_left_finger_joint
       interface_name: position
-      enforce_joint_limits: false
