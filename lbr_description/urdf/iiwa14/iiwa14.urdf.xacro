@@ -12,6 +12,7 @@
         <xacro:property name="PI" value="3.1415926535897931" />
         <xacro:property name="joint_damping" value="10.0" />
         <xacro:property name="joint_friction" value="0.1" />
+        <xacro:arg name="sim" default="false" />
 
         <!-- links and joints -->
         <link name="${robot_name}_link_0">
@@ -317,36 +318,37 @@
         </link>
 
 
+        <xacro:if value="$(arg sim)"> 
+            <ros2_control name="robotiq_ros2_control" type="system">
+                <hardware>
+                                    
+                    <plugin>gz_ros2_control/GazeboSimSystem</plugin>                    
+                                  
+                </hardware>
 
-        <ros2_control name="robotiq_ros2_control" type="system">
-            <hardware>
-                
-                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-                
-            </hardware>
+                <joint name="hande_left_finger_joint">
+                    <command_interface name="position">
+                    <param name="min">-0.025</param>
+                    <param name="max">0.025</param>
+                    </command_interface>
+                    <state_interface name="position">
+                    <param name="initial_value">0.0</param>
+                    </state_interface>
+                    <state_interface name="velocity"/>
+                </joint>
 
-            <joint name="hande_left_finger_joint">
-                <command_interface name="position">
-                <param name="min">-0.025</param>
-                <param name="max">0.025</param>
-                </command_interface>
-                <state_interface name="position">
-                <param name="initial_value">0.0</param>
-                </state_interface>
-                <state_interface name="velocity"/>
-            </joint>
-
-            <joint name="hande_right_finger_joint">
-                <command_interface name="position">
-                <param name="min">-0.025</param>
-                <param name="max">0.025</param>
-                </command_interface>
-                <state_interface name="position">
-                <param name="initial_value">0.0</param>
-                </state_interface>
-                <state_interface name="velocity"/>
-            </joint>
-        </ros2_control>
+                <joint name="hande_right_finger_joint">
+                    <command_interface name="position">
+                    <param name="min">-0.025</param>
+                    <param name="max">0.025</param>
+                    </command_interface>
+                    <state_interface name="position">
+                    <param name="initial_value">0.0</param>
+                    </state_interface>
+                    <state_interface name="velocity"/>
+                </joint>
+            </ros2_control>
+        </xacro:if>  
     </xacro:macro>
 
     

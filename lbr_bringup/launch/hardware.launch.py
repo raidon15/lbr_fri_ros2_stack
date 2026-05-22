@@ -8,6 +8,7 @@ from launch.substitutions import (
 )
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description() -> LaunchDescription:
@@ -15,7 +16,7 @@ def generate_launch_description() -> LaunchDescription:
         [
             DeclareLaunchArgument(
                 name="model",
-                default_value="iiwa7",
+                default_value="iiwa14",
                 description="The LBR model in use.",
                 choices=["iiwa7", "iiwa14", "med7", "med14"],
             ),
@@ -69,24 +70,28 @@ def generate_launch_description() -> LaunchDescription:
                 output="screen",
                 parameters=[
                     {
-                        "robot_description": Command(
-                            [
-                                FindExecutable(name="xacro"),
-                                " ",
-                                PathSubstitution(FindPackageShare("lbr_description"))
-                                / "urdf"
-                                / LaunchConfiguration("model")
-                                / LaunchConfiguration("model"),
-                                ".xacro",
-                                " robot_name:=",
-                                LaunchConfiguration("robot_name"),
-                                " mode:=hardware",
-                                " system_config_path:=",
-                                PathSubstitution(
-                                    FindPackageShare(LaunchConfiguration("sys_cfg_pkg"))
-                                )
-                                / LaunchConfiguration("sys_cfg"),
-                            ]
+                        # FIXED: Wrapped the Command substitution inside ParameterValue(..., value_type=str)
+                        "robot_description": ParameterValue(
+                            Command(
+                                [
+                                    FindExecutable(name="xacro"),
+                                    " ",
+                                    PathSubstitution(FindPackageShare("lbr_description"))
+                                    / "urdf"
+                                    / LaunchConfiguration("model")
+                                    / LaunchConfiguration("model"),
+                                    ".xacro",
+                                    " robot_name:=",
+                                    LaunchConfiguration("robot_name"),
+                                    " mode:=hardware",
+                                    " system_config_path:=",
+                                    PathSubstitution(
+                                        FindPackageShare(LaunchConfiguration("sys_cfg_pkg"))
+                                    )
+                                    / LaunchConfiguration("sys_cfg"),
+                                ]
+                            ),
+                            value_type=str
                         )
                     },
                     {"use_sim_time": False},
